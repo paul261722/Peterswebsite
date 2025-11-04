@@ -5,39 +5,41 @@ const Footer = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [hoveredSocial, setHoveredSocial] = useState(null);
   const [isNewsletterHovered, setIsNewsletterHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth > 768 && windowWidth <= 1024;
 
   const styles = {
     footer: {
       background: 'linear-gradient(135deg, #8b0000 0%, #dc2626 100%)',
       color: 'white',
-      padding: isMobile ? '3rem 1rem 1rem' : '4rem 2rem 2rem',
+      padding: isMobile ? '2rem 1rem 1rem' : isTablet ? '3rem 1.5rem 1.5rem' : '4rem 2rem 2rem',
       fontFamily: "'Inter', sans-serif"
     },
     container: {
       maxWidth: '1400px',
       margin: '0 auto',
       display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: isMobile ? '2rem' : '3rem',
-      marginBottom: isMobile ? '2rem' : '3rem'
-    },
-    section: {
+      gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : '2fr 1fr 1fr 1.5fr',
+      gap: isMobile ? '1.5rem' : isTablet ? '2rem' : '3rem',
       marginBottom: isMobile ? '1.5rem' : '2rem'
     },
+    section: {
+      marginBottom: isMobile ? '1rem' : '1.5rem'
+    },
     sectionTitle: {
-      fontSize: isMobile ? '1.3rem' : '1.5rem',
-      marginBottom: isMobile ? '1rem' : '1.5rem',
+      fontSize: isMobile ? '1.1rem' : isTablet ? '1.3rem' : '1.5rem',
+      marginBottom: isMobile ? '0.8rem' : '1rem',
       color: '#ffd700',
       fontWeight: '700',
       fontFamily: "'Playfair Display', serif",
@@ -47,31 +49,34 @@ const Footer = () => {
       color: '#f8f9fa',
       textDecoration: 'none',
       display: 'block',
-      marginBottom: isMobile ? '0.6rem' : '0.8rem',
+      marginBottom: isMobile ? '0.5rem' : '0.6rem',
       transition: 'all 0.3s ease',
       cursor: 'pointer',
-      padding: isMobile ? '0.4rem 0' : '0.5rem 0',
+      padding: isMobile ? '0.8rem 0.5rem' : '0.5rem 0',
       borderRadius: '8px',
-      fontSize: isMobile ? '0.9rem' : '1rem',
-      minHeight: isMobile ? '44px' : 'auto',
+      fontSize: isMobile ? '0.95rem' : '1rem',
+      minHeight: '44px',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      border: '2px solid transparent'
     },
     linkHovered: {
       color: '#ffd700',
-      transform: isMobile ? 'none' : 'translateX(10px)',
-      background: 'rgba(255, 255, 255, 0.1)',
-      padding: isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem'
+      transform: isMobile ? 'none' : 'translateX(8px)',
+      background: 'rgba(255, 255, 255, 0.15)',
+      padding: isMobile ? '0.8rem 0.8rem' : '0.5rem 1rem',
+      border: isMobile ? '2px solid rgba(255, 215, 0, 0.3)' : '2px solid transparent'
     },
     socialLinks: {
       display: 'flex',
       gap: isMobile ? '0.8rem' : '1rem',
-      marginTop: isMobile ? '1rem' : '1.5rem',
-      justifyContent: isMobile ? 'center' : 'flex-start'
+      marginTop: isMobile ? '1rem' : '1.2rem',
+      justifyContent: isMobile ? 'center' : 'flex-start',
+      flexWrap: 'wrap'
     },
     socialIcon: {
-      width: isMobile ? '50px' : '45px',
-      height: isMobile ? '50px' : '45px',
+      width: '44px',
+      height: '44px',
       background: 'linear-gradient(135deg, #ffd700, #ffed4e)',
       borderRadius: '50%',
       display: 'flex',
@@ -79,74 +84,79 @@ const Footer = () => {
       justifyContent: 'center',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
-      fontSize: isMobile ? '1.3rem' : '1.2rem',
-      boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
-      minWidth: '50px'
+      fontSize: isMobile ? '1.2rem' : '1.1rem',
+      boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)',
+      border: '2px solid transparent'
     },
     socialIconHovered: {
-      transform: isMobile ? 'scale(1.05)' : 'translateY(-5px) scale(1.1)',
+      transform: isMobile ? 'scale(1.1)' : 'translateY(-3px) scale(1.05)',
       background: 'linear-gradient(135deg, #ffffff, #ffd700)',
-      boxShadow: '0 8px 25px rgba(255, 215, 0, 0.5)'
+      boxShadow: '0 6px 20px rgba(255, 215, 0, 0.5)',
+      border: isMobile ? '2px solid rgba(255, 255, 255, 0.5)' : '2px solid transparent'
     },
     contactInfo: {
-      marginBottom: isMobile ? '0.8rem' : '1rem',
+      marginBottom: isMobile ? '0.8rem' : '0.9rem',
       color: '#f8f9fa',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       gap: isMobile ? '0.6rem' : '0.8rem',
-      fontSize: isMobile ? '0.9rem' : '1rem',
-      padding: isMobile ? '0.3rem 0' : '0'
+      fontSize: isMobile ? '0.9rem' : '0.95rem',
+      padding: isMobile ? '0.3rem 0' : '0',
+      lineHeight: '1.4'
     },
     bottomBar: {
       borderTop: '2px solid rgba(255, 255, 255, 0.2)',
-      paddingTop: isMobile ? '1.5rem' : '2rem',
+      paddingTop: isMobile ? '1rem' : '1.5rem',
       textAlign: 'center',
       color: '#f8f9fa',
-      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontSize: isMobile ? '0.85rem' : '0.9rem',
       lineHeight: '1.5'
     },
     newsletterInput: {
-      padding: isMobile ? '0.9rem 1.2rem' : '1rem 1.5rem',
+      padding: isMobile ? '0.9rem 1rem' : '1rem 1.2rem',
       borderRadius: '25px',
       border: '2px solid rgba(255, 255, 255, 0.3)',
       width: '100%',
       marginBottom: isMobile ? '0.8rem' : '1rem',
-      fontSize: isMobile ? '0.9rem' : '1rem',
-      background: 'rgba(255, 255, 255, 0.9)',
+      fontSize: isMobile ? '1rem' : '1rem',
+      background: 'rgba(255, 255, 255, 0.95)',
       color: '#8b0000',
       outline: 'none',
       transition: 'all 0.3s ease',
-      minHeight: isMobile ? '50px' : 'auto'
+      minHeight: '50px',
+      WebkitAppearance: 'none'
     },
     newsletterBtn: {
       background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
       color: '#8b0000',
       border: 'none',
-      padding: isMobile ? '0.9rem 1.5rem' : '1rem 2rem',
+      padding: isMobile ? '0.9rem 1.2rem' : '1rem 1.5rem',
       borderRadius: '25px',
       cursor: 'pointer',
       fontWeight: '700',
       transition: 'all 0.3s ease',
       width: '100%',
-      fontSize: isMobile ? '1rem' : '1.1rem',
-      boxShadow: '0 6px 20px rgba(255, 215, 0, 0.4)',
-      minHeight: isMobile ? '50px' : 'auto'
+      fontSize: isMobile ? '1rem' : '1rem',
+      boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)',
+      minHeight: '50px',
+      border: '2px solid transparent'
     },
     newsletterBtnHovered: {
-      transform: isMobile ? 'none' : 'translateY(-3px)',
-      boxShadow: '0 10px 30px rgba(255, 215, 0, 0.6)',
-      background: 'linear-gradient(135deg, #ffffff, #ffd700)'
+      transform: isMobile ? 'scale(1.02)' : 'translateY(-2px)',
+      boxShadow: '0 6px 20px rgba(255, 215, 0, 0.6)',
+      background: 'linear-gradient(135deg, #ffffff, #ffd700)',
+      border: isMobile ? '2px solid rgba(255, 255, 255, 0.5)' : '2px solid transparent'
     },
     // Map Styles
     mapSection: {
-      gridColumn: isMobile ? 'span 1' : 'span 2'
+      gridColumn: isMobile ? 'span 1' : isTablet ? 'span 2' : 'span 2'
     },
     mapContainer: {
-      borderRadius: isMobile ? '15px' : '20px',
+      borderRadius: isMobile ? '12px' : '16px',
       overflow: 'hidden',
-      boxShadow: '0 15px 40px rgba(0, 0, 0, 0.3)',
-      border: isMobile ? '2px solid rgba(255, 255, 255, 0.3)' : '3px solid rgba(255, 255, 255, 0.3)',
-      height: isMobile ? '250px' : '300px',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
+      border: isMobile ? '2px solid rgba(255, 255, 255, 0.2)' : '3px solid rgba(255, 255, 255, 0.3)',
+      height: isMobile ? '200px' : isTablet ? '250px' : '280px',
       background: '#f8f9fa'
     },
     mapFrame: {
@@ -157,25 +167,25 @@ const Footer = () => {
     },
     locationInfo: {
       background: 'rgba(255, 255, 255, 0.95)',
-      padding: isMobile ? '1rem' : '1.5rem',
-      borderRadius: '15px',
+      padding: isMobile ? '0.8rem' : '1.2rem',
+      borderRadius: '12px',
       marginTop: isMobile ? '0.8rem' : '1rem',
       color: '#8b0000',
-      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
+      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
     },
     locationTitle: {
-      fontSize: isMobile ? '1.1rem' : '1.3rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       fontWeight: '700',
-      marginBottom: isMobile ? '0.6rem' : '0.8rem',
+      marginBottom: isMobile ? '0.5rem' : '0.6rem',
       color: '#8b0000',
       fontFamily: "'Playfair Display', serif"
     },
     locationDetail: {
       display: 'flex',
       alignItems: 'flex-start',
-      gap: isMobile ? '0.6rem' : '0.8rem',
-      marginBottom: isMobile ? '0.4rem' : '0.5rem',
-      fontSize: isMobile ? '0.85rem' : '1rem',
+      gap: isMobile ? '0.5rem' : '0.6rem',
+      marginBottom: isMobile ? '0.3rem' : '0.4rem',
+      fontSize: isMobile ? '0.8rem' : '0.9rem',
       color: '#666',
       lineHeight: '1.4'
     },
@@ -184,24 +194,25 @@ const Footer = () => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      textAlign: isMobile ? 'center' : 'left'
+      textAlign: isMobile ? 'center' : 'left',
+      gridColumn: isMobile ? 'span 1' : isTablet ? 'span 2' : 'span 1'
     },
     brandLogo: {
       display: 'flex',
       alignItems: 'center',
-      gap: isMobile ? '0.8rem' : '1rem',
-      marginBottom: isMobile ? '1rem' : '1.5rem',
+      gap: isMobile ? '0.6rem' : '0.8rem',
+      marginBottom: isMobile ? '1rem' : '1.2rem',
       justifyContent: isMobile ? 'center' : 'flex-start'
     },
     brandIcon: {
-      fontSize: isMobile ? '2.5rem' : '3rem',
+      fontSize: isMobile ? '2rem' : '2.5rem',
       background: 'linear-gradient(135deg, #ffd700, #ffffff)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text'
     },
     brandText: {
-      fontSize: isMobile ? '2rem' : '2.5rem',
+      fontSize: isMobile ? '1.5rem' : '2rem',
       fontWeight: '800',
       background: 'linear-gradient(135deg, #ffd700, #ffffff)',
       WebkitBackgroundClip: 'text',
@@ -211,16 +222,10 @@ const Footer = () => {
     },
     brandDescription: {
       color: '#f8f9fa',
-      lineHeight: '1.7',
-      fontSize: isMobile ? '1rem' : '1.1rem',
-      marginBottom: isMobile ? '1.5rem' : '2rem',
+      lineHeight: '1.6',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      marginBottom: isMobile ? '1.2rem' : '1.5rem',
       textAlign: isMobile ? 'center' : 'left'
-    },
-    // Grid layout for larger screens
-    desktopGrid: {
-      display: 'grid',
-      gridTemplateColumns: '2fr 1fr 1fr 1.5fr',
-      gap: '3rem'
     }
   };
 
@@ -234,7 +239,7 @@ const Footer = () => {
 
   return (
     <footer style={styles.footer}>
-      <div style={isMobile ? styles.container : { ...styles.container, ...styles.desktopGrid }}>
+      <div style={styles.container}>
         {/* Brand Section */}
         <div style={styles.brandSection}>
           <div>
@@ -258,8 +263,12 @@ const Footer = () => {
                 }}
                 onMouseEnter={() => setHoveredSocial(index)}
                 onMouseLeave={() => setHoveredSocial(null)}
+                onTouchStart={() => setHoveredSocial(index)}
+                onTouchEnd={() => setHoveredSocial(null)}
                 title={social.label}
                 aria-label={social.label}
+                role="button"
+                tabIndex={0}
               >
                 {social.icon}
               </div>
@@ -277,9 +286,12 @@ const Footer = () => {
                 ...styles.link,
                 ...(hoveredLink === index ? styles.linkHovered : {})
               }}
-              onMouseEnter={() => !isMobile && setHoveredLink(index)}
-              onMouseLeave={() => !isMobile && setHoveredLink(null)}
-              onClick={() => isMobile && setHoveredLink(hoveredLink === index ? null : index)}
+              onMouseEnter={() => setHoveredLink(index)}
+              onMouseLeave={() => setHoveredLink(null)}
+              onTouchStart={() => setHoveredLink(index)}
+              onTouchEnd={() => setHoveredLink(null)}
+              role="button"
+              tabIndex={0}
             >
               {link}
             </div>
@@ -289,28 +301,28 @@ const Footer = () => {
         {/* Contact Info */}
         <div style={styles.section}>
           <h3 style={styles.sectionTitle}>Contact Info</h3>
-          <p style={styles.contactInfo}>
-            <span style={{fontSize: isMobile ? '1.1rem' : '1.2rem'}}>📞</span> 
+          <div style={styles.contactInfo}>
+            <span style={{fontSize: isMobile ? '1rem' : '1.1rem', minWidth: '20px'}}>📞</span> 
             +254 703 153 181
-          </p>
-          <p style={styles.contactInfo}>
-            <span style={{fontSize: isMobile ? '1.1rem' : '1.2rem'}}>✉️</span> 
+          </div>
+          <div style={styles.contactInfo}>
+            <span style={{fontSize: isMobile ? '1rem' : '1.1rem', minWidth: '20px'}}>✉️</span> 
             psonflowers@gmail.com
-          </p>
-          <p style={styles.contactInfo}>
-            <span style={{fontSize: isMobile ? '1.1rem' : '1.2rem'}}>📍</span> 
+          </div>
+          <div style={styles.contactInfo}>
+            <span style={{fontSize: isMobile ? '1rem' : '1.1rem', minWidth: '20px'}}>📍</span> 
             Nairobi, Kenya
-          </p>
-          <p style={styles.contactInfo}>
-            <span style={{fontSize: isMobile ? '1.1rem' : '1.2rem'}}>🕒</span> 
+          </div>
+          <div style={styles.contactInfo}>
+            <span style={{fontSize: isMobile ? '1rem' : '1.1rem', minWidth: '20px'}}>🕒</span> 
             Mon-Sat: 9:30AM-6:30PM
-          </p>
+          </div>
         </div>
 
         {/* Newsletter */}
         <div style={styles.section}>
           <h3 style={styles.sectionTitle}>Newsletter</h3>
-          <p style={{color: '#f8f9fa', marginBottom: '1.5rem', lineHeight: '1.6', fontSize: isMobile ? '0.9rem' : '1rem'}}>
+          <p style={{color: '#f8f9fa', marginBottom: '1.2rem', lineHeight: '1.5', fontSize: isMobile ? '0.85rem' : '0.9rem'}}>
             Subscribe for exclusive floral offers, care tips, and seasonal arrangements!
           </p>
           <input 
@@ -322,7 +334,7 @@ const Footer = () => {
               e.target.style.borderColor = '#ffd700';
             }}
             onBlur={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.9)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.95)';
               e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
             }}
             aria-label="Email address for newsletter"
@@ -332,8 +344,8 @@ const Footer = () => {
               ...styles.newsletterBtn,
               ...(isNewsletterHovered ? styles.newsletterBtnHovered : {})
             }}
-            onMouseEnter={() => !isMobile && setIsNewsletterHovered(true)}
-            onMouseLeave={() => !isMobile && setIsNewsletterHovered(false)}
+            onMouseEnter={() => setIsNewsletterHovered(true)}
+            onMouseLeave={() => setIsNewsletterHovered(false)}
             onTouchStart={() => setIsNewsletterHovered(true)}
             onTouchEnd={() => setIsNewsletterHovered(false)}
           >
@@ -341,7 +353,7 @@ const Footer = () => {
           </button>
         </div>
 
-        {/* Map Section - Full width on mobile, span 2 columns on desktop */}
+        {/* Map Section */}
         <div style={styles.mapSection}>
           <h3 style={styles.sectionTitle}>Visit Our Store</h3>
           <div style={styles.mapContainer}>
@@ -378,61 +390,6 @@ const Footer = () => {
           Made with 💐 in Nairobi
         </p>
       </div>
-
-      <style jsx>{`
-        /* Mobile-first responsive design */
-        @media (max-width: 480px) {
-          .footer {
-            padding: 2rem 0.8rem 1rem !important;
-          }
-          
-          .brand-text {
-            font-size: 1.8rem !important;
-          }
-          
-          .social-icon {
-            width: 45px !important;
-            height: 45px !important;
-          }
-          
-          .map-container {
-            height: 200px !important;
-          }
-        }
-
-        /* Tablet optimization */
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .container {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          
-          .map-section {
-            grid-column: span 2 !important;
-          }
-        }
-
-        /* Desktop enhancements */
-        @media (min-width: 1025px) {
-          .container {
-            grid-template-columns: 2fr 1fr 1fr 1.5fr !important;
-          }
-        }
-
-        /* Touch device optimizations */
-        @media (hover: none) and (pointer: coarse) {
-          .link:hover {
-            transform: none !important;
-          }
-          
-          .social-icon:hover {
-            transform: scale(1.05) !important;
-          }
-          
-          .newsletter-btn:hover {
-            transform: none !important;
-          }
-        }
-      `}</style>
     </footer>
   );
 };
