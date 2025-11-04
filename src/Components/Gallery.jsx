@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Gallery = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchActive, setTouchActive] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const flowers = [
     {
@@ -134,7 +146,7 @@ const Gallery = () => {
 
   const styles = {
     gallery: {
-      padding: '120px 2rem 5rem 2rem',
+      padding: isMobile ? '100px 1rem 2rem 1rem' : '120px 2rem 5rem 2rem',
       background: 'linear-gradient(135deg, #fdfcfb 0%, #f5f7fa 100%)',
       minHeight: '100vh'
     },
@@ -144,109 +156,186 @@ const Gallery = () => {
     },
     title: {
       textAlign: 'center',
-      fontSize: '3rem',
+      fontSize: isMobile ? '2.2rem' : '3rem',
       marginBottom: '1rem',
       color: '#8b0000',
       fontFamily: "'Playfair Display', serif",
-      fontWeight: '700'
+      fontWeight: '700',
+      lineHeight: '1.1'
     },
     subtitle: {
       textAlign: 'center',
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       color: '#666',
-      marginBottom: '4rem',
+      marginBottom: isMobile ? '3rem' : '4rem',
       fontFamily: "'Playfair Display', serif",
-      fontStyle: 'italic'
+      fontStyle: 'italic',
+      lineHeight: '1.5',
+      padding: isMobile ? '0 0.5rem' : '0 2rem'
     },
     grid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-      gap: '2.5rem',
-      padding: '0 1rem'
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(320px, 1fr))',
+      gap: isMobile ? '1.5rem' : '2.5rem',
+      padding: isMobile ? '0' : '0 1rem'
     },
     flowerCard: {
       background: 'white',
-      borderRadius: '20px',
+      borderRadius: isMobile ? '15px' : '20px',
       overflow: 'hidden',
       boxShadow: '0 8px 25px rgba(139, 0, 0, 0.1)',
-      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-      cursor: 'default', // Changed from 'pointer' to 'default'
-      border: '1px solid rgba(139, 0, 0, 0.1)'
+      transition: isMobile ? 'none' : 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      cursor: 'default',
+      border: '1px solid rgba(139, 0, 0, 0.1)',
+      position: 'relative'
     },
     flowerCardHovered: {
-      transform: 'translateY(-12px)',
-      boxShadow: '0 20px 40px rgba(139, 0, 0, 0.2)'
+      transform: isMobile ? 'none' : 'translateY(-12px)',
+      boxShadow: isMobile ? '0 8px 25px rgba(139, 0, 0, 0.1)' : '0 20px 40px rgba(139, 0, 0, 0.2)'
+    },
+    flowerCardTouched: {
+      transform: 'scale(0.98)',
+      boxShadow: '0 4px 15px rgba(139, 0, 0, 0.15)'
     },
     flowerImageContainer: {
       overflow: 'hidden',
-      height: '280px',
+      height: isMobile ? '220px' : '280px',
       position: 'relative'
     },
     flowerImage: {
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      transition: 'transform 0.4s ease'
+      transition: isMobile ? 'none' : 'transform 0.4s ease'
     },
     flowerImageHovered: {
-      transform: 'scale(1.08)'
+      transform: isMobile ? 'none' : 'scale(1.08)'
     },
     flowerInfo: {
-      padding: '2rem',
+      padding: isMobile ? '1.5rem' : '2rem',
       textAlign: 'center'
     },
     flowerName: {
-      fontSize: '1.5rem',
-      marginBottom: '0.8rem',
+      fontSize: isMobile ? '1.3rem' : '1.5rem',
+      marginBottom: isMobile ? '0.6rem' : '0.8rem',
       color: '#8b0000',
       fontFamily: "'Playfair Display', serif",
-      fontWeight: '600'
+      fontWeight: '600',
+      lineHeight: '1.3'
     },
     flowerDescription: {
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       color: '#666',
-      marginBottom: '1.2rem',
+      marginBottom: isMobile ? '1rem' : '1.2rem',
       lineHeight: '1.5',
       fontFamily: "'Inter', sans-serif"
     },
     flowerPrice: {
-      fontSize: '1.6rem',
+      fontSize: isMobile ? '1.4rem' : '1.6rem',
       color: '#8b0000',
       fontWeight: 'bold',
       fontFamily: "'Inter', sans-serif",
       background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(255, 215, 0, 0.1))',
-      padding: '0.5rem 1rem',
+      padding: isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem',
       borderRadius: '10px',
       display: 'inline-block'
     },
     headerSection: {
       textAlign: 'center',
-      marginBottom: '4rem',
-      padding: '0 2rem'
+      marginBottom: isMobile ? '3rem' : '4rem',
+      padding: isMobile ? '0' : '0 2rem'
     },
     decorativeLine: {
-      width: '100px',
+      width: isMobile ? '80px' : '100px',
       height: '3px',
       background: 'linear-gradient(90deg, #8b0000, #dc2626)',
-      margin: '1rem auto',
+      margin: isMobile ? '0.8rem auto' : '1rem auto',
       borderRadius: '2px'
     },
     flowerCount: {
       textAlign: 'center',
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       color: '#8b0000',
-      marginBottom: '3rem',
+      marginBottom: isMobile ? '2rem' : '3rem',
       fontFamily: "'Inter', sans-serif",
       fontWeight: '500',
       background: 'rgba(139, 0, 0, 0.05)',
-      padding: '0.5rem 1rem',
+      padding: isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem',
       borderRadius: '20px',
       display: 'inline-block'
+    },
+    backButton: {
+      position: 'fixed',
+      top: isMobile ? '1rem' : '2rem',
+      left: isMobile ? '1rem' : '2rem',
+      background: 'rgba(139, 0, 0, 0.9)',
+      border: 'none',
+      color: 'white',
+      padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
+      borderRadius: '50px',
+      cursor: 'pointer',
+      fontWeight: '600',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      transition: 'all 0.3s ease',
+      backdropFilter: 'blur(10px)',
+      zIndex: 100,
+      boxShadow: '0 5px 15px rgba(139, 0, 0, 0.3)'
+    },
+    touchOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(139, 0, 0, 0.03)',
+      opacity: 0,
+      transition: 'opacity 0.2s ease',
+      zIndex: 1
+    },
+    touchOverlayActive: {
+      opacity: 1
+    }
+  };
+
+  const handleBackClick = () => {
+    window.history.back();
+  };
+
+  const handleTouchStart = (flowerId) => {
+    if (isMobile) {
+      setTouchActive(true);
+      setHoveredCard(flowerId);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (isMobile) {
+      setTouchActive(false);
+      setTimeout(() => setHoveredCard(null), 150);
     }
   };
 
   return (
     <section style={styles.gallery} id="gallery">
+      {/* Back Button */}
+      <button 
+        style={styles.backButton}
+        onClick={handleBackClick}
+        onMouseEnter={(e) => {
+          e.target.style.background = 'rgba(139, 0, 0, 1)';
+          e.target.style.transform = 'translateX(-5px)';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = 'rgba(139, 0, 0, 0.9)';
+          e.target.style.transform = 'translateX(0)';
+        }}
+      >
+        ← {isMobile ? 'Back' : 'Back to Home'}
+      </button>
+
       <div style={styles.container}>
         <div style={styles.headerSection}>
           <h2 style={styles.title}>Our Flower Collection</h2>
@@ -266,12 +355,25 @@ const Gallery = () => {
               key={flower.id} 
               style={{
                 ...styles.flowerCard,
-                ...(hoveredCard === flower.id ? styles.flowerCardHovered : {})
+                ...(hoveredCard === flower.id ? styles.flowerCardHovered : {}),
+                ...(touchActive && hoveredCard === flower.id ? styles.flowerCardTouched : {})
               }}
-              onMouseEnter={() => setHoveredCard(flower.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-              // Removed the onClick handler completely
+              onMouseEnter={() => !isMobile && setHoveredCard(flower.id)}
+              onMouseLeave={() => !isMobile && setHoveredCard(null)}
+              onTouchStart={() => handleTouchStart(flower.id)}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
             >
+              {/* Touch Overlay for Mobile */}
+              {isMobile && (
+                <div 
+                  style={{
+                    ...styles.touchOverlay,
+                    ...(touchActive && hoveredCard === flower.id ? styles.touchOverlayActive : {})
+                  }}
+                />
+              )}
+              
               <div style={styles.flowerImageContainer}>
                 <img 
                   src={flower.image} 
@@ -280,6 +382,7 @@ const Gallery = () => {
                     ...styles.flowerImage,
                     ...(hoveredCard === flower.id ? styles.flowerImageHovered : {})
                   }}
+                  loading="lazy"
                 />
               </div>
               <div style={styles.flowerInfo}>
@@ -291,6 +394,68 @@ const Gallery = () => {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        /* Mobile-first responsive design */
+        @media (max-width: 480px) {
+          .gallery {
+            padding: 90px 0.8rem 1rem 0.8rem !important;
+          }
+          
+          .title {
+            font-size: 2rem !important;
+          }
+          
+          .flower-image-container {
+            height: 200px !important;
+          }
+          
+          .flower-info {
+            padding: 1.2rem !important;
+          }
+          
+          .flower-name {
+            font-size: 1.2rem !important;
+          }
+        }
+
+        /* Tablet optimization */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 2rem !important;
+          }
+        }
+
+        /* Large screen enhancements */
+        @media (min-width: 1025px) {
+          .grid {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+          }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .flower-card:hover {
+            transform: none !important;
+          }
+          
+          .flower-image:hover {
+            transform: none !important;
+          }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .flower-card {
+            transition: none !important;
+          }
+          
+          .flower-image {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

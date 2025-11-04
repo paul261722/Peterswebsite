@@ -3,9 +3,17 @@ import React, { useState, useEffect } from 'react';
 const ContactPage = () => {
   const [copied, setCopied] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Owner's contact information
@@ -34,7 +42,7 @@ const ContactPage = () => {
   };
 
   const handleEmail = () => {
-    window.open(`mailto:${ownerInfo.email}?subject=Flower Inquiry from Bloomify Website`);
+    window.open(`mailto:${ownerInfo.email}?subject=Flower Inquiry from Pson Floral Expert Website`);
   };
 
   const styles = {
@@ -43,8 +51,8 @@ const ContactPage = () => {
       background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
-      padding: '8rem 2rem 4rem',
+      backgroundAttachment: isMobile ? 'scroll' : 'fixed',
+      padding: isMobile ? '6rem 1rem 2rem' : '8rem 2rem 4rem',
       color: 'white',
       fontFamily: "'Playfair Display', 'Georgia', serif",
       display: 'flex',
@@ -56,29 +64,31 @@ const ContactPage = () => {
       margin: '0 auto',
       opacity: isVisible ? 1 : 0,
       transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-      transition: 'all 0.8s ease'
+      transition: 'all 0.8s ease',
+      width: '100%'
     },
     heroSection: {
       textAlign: 'center',
-      marginBottom: '4rem',
-      padding: '3rem',
+      marginBottom: isMobile ? '3rem' : '4rem',
+      padding: isMobile ? '2rem 1.5rem' : '3rem',
       background: 'rgba(255, 255, 255, 0.1)',
       backdropFilter: 'blur(10px)',
-      borderRadius: '20px',
+      borderRadius: isMobile ? '15px' : '20px',
       border: '1px solid rgba(255, 255, 255, 0.2)'
     },
     mainTitle: {
-      fontSize: '4rem',
+      fontSize: isMobile ? '2.5rem' : '4rem',
       fontWeight: '700',
       marginBottom: '1rem',
       background: 'linear-gradient(135deg, #fff, #ff6b6b)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
-      textShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+      textShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+      lineHeight: '1.1'
     },
     subtitle: {
-      fontSize: '1.5rem',
+      fontSize: isMobile ? '1.2rem' : '1.5rem',
       opacity: 0.9,
       marginBottom: '2rem',
       fontWeight: '300',
@@ -86,95 +96,100 @@ const ContactPage = () => {
     },
     contentGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-      gap: '3rem',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))',
+      gap: isMobile ? '2rem' : '3rem',
       alignItems: 'start'
     },
     contactCard: {
       background: 'rgba(255, 255, 255, 0.08)',
       backdropFilter: 'blur(15px)',
-      padding: '3rem',
-      borderRadius: '20px',
+      padding: isMobile ? '2rem 1.5rem' : '3rem',
+      borderRadius: isMobile ? '15px' : '20px',
       border: '1px solid rgba(255, 255, 255, 0.15)',
       boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
       textAlign: 'center'
     },
     ownerImage: {
-      width: '150px',
-      height: '150px',
+      width: isMobile ? '120px' : '150px',
+      height: isMobile ? '120px' : '150px',
       borderRadius: '50%',
       margin: '0 auto 2rem',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: '4rem',
+      fontSize: isMobile ? '3rem' : '4rem',
       color: 'white',
       boxShadow: '0 15px 35px rgba(255, 107, 107, 0.4)'
     },
     ownerName: {
-      fontSize: '2.5rem',
+      fontSize: isMobile ? '2rem' : '2.5rem',
       fontWeight: '700',
       color: 'white',
-      marginBottom: '0.5rem'
+      marginBottom: '0.5rem',
+      lineHeight: '1.1'
     },
     ownerTitle: {
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       color: 'rgba(255, 255, 255, 0.8)',
-      marginBottom: '3rem',
+      marginBottom: isMobile ? '2rem' : '3rem',
       fontWeight: '500'
     },
     contactItem: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: isMobile ? 'flex-start' : 'center',
       gap: '1rem',
-      marginBottom: '2rem',
-      padding: '1.5rem',
+      marginBottom: isMobile ? '1.5rem' : '2rem',
+      padding: isMobile ? '1rem' : '1.5rem',
       background: 'rgba(255, 255, 255, 0.1)',
       borderRadius: '15px',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      textAlign: isMobile ? 'left' : 'center'
     },
     contactIcon: {
-      fontSize: '2rem',
+      fontSize: isMobile ? '1.5rem' : '2rem',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text'
+      backgroundClip: 'text',
+      flexShrink: 0
     },
     contactText: {
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       color: 'white',
       fontWeight: '500'
     },
     phoneNumber: {
-      fontSize: '2.5rem',
+      fontSize: isMobile ? '1.8rem' : '2.5rem',
       fontWeight: '700',
       color: 'white',
-      margin: '2rem 0',
+      margin: isMobile ? '1.5rem 0' : '2rem 0',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
-      textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+      textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+      wordBreak: 'break-all',
+      padding: isMobile ? '0 1rem' : '0'
     },
     actionButtons: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '1rem',
-      marginTop: '2rem'
+      gap: isMobile ? '0.8rem' : '1rem',
+      marginTop: isMobile ? '1.5rem' : '2rem'
     },
     whatsappButton: {
       background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
       color: 'white',
       border: 'none',
-      padding: '1.5rem 2rem',
+      padding: isMobile ? '1.2rem 1.5rem' : '1.5rem 2rem',
       borderRadius: '50px',
       cursor: 'pointer',
       fontWeight: '600',
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -187,11 +202,11 @@ const ContactPage = () => {
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       color: 'white',
       border: 'none',
-      padding: '1.5rem 2rem',
+      padding: isMobile ? '1.2rem 1.5rem' : '1.5rem 2rem',
       borderRadius: '50px',
       cursor: 'pointer',
       fontWeight: '600',
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -204,11 +219,11 @@ const ContactPage = () => {
       background: 'linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%)',
       color: 'white',
       border: 'none',
-      padding: '1.5rem 2rem',
+      padding: isMobile ? '1.2rem 1.5rem' : '1.5rem 2rem',
       borderRadius: '50px',
       cursor: 'pointer',
       fontWeight: '600',
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -221,63 +236,79 @@ const ContactPage = () => {
       background: 'rgba(255, 255, 255, 0.2)',
       color: 'white',
       border: '2px solid rgba(255, 255, 255, 0.3)',
-      padding: '1rem 2rem',
+      padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
       borderRadius: '25px',
       cursor: 'pointer',
       fontWeight: '600',
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       transition: 'all 0.3s ease',
-      marginTop: '1rem',
-      backdropFilter: 'blur(10px)'
+      marginTop: isMobile ? '0.8rem' : '1rem',
+      backdropFilter: 'blur(10px)',
+      width: '100%'
     },
     businessInfo: {
       background: 'rgba(255, 255, 255, 0.1)',
-      padding: '2rem',
+      padding: isMobile ? '1.5rem' : '2rem',
       borderRadius: '15px',
-      marginTop: '2rem',
+      marginTop: isMobile ? '1.5rem' : '2rem',
       border: '1px solid rgba(255, 255, 255, 0.2)',
       backdropFilter: 'blur(10px)'
     },
     infoText: {
       color: 'rgba(255, 255, 255, 0.9)',
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1rem' : '1.2rem',
       marginBottom: '1rem',
       display: 'flex',
       alignItems: 'center',
       gap: '1rem',
-      justifyContent: 'center'
+      justifyContent: isMobile ? 'flex-start' : 'center'
     },
     copiedText: {
       color: '#25D366',
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       fontWeight: '600',
-      marginTop: '1rem',
+      marginTop: isMobile ? '0.8rem' : '1rem',
       opacity: copied ? 1 : 0,
-      transition: 'opacity 0.3s ease'
+      transition: 'opacity 0.3s ease',
+      textAlign: 'center'
     },
     backButton: {
-      position: 'absolute',
-      top: '2rem',
-      left: '2rem',
+      position: 'fixed',
+      top: isMobile ? '1rem' : '2rem',
+      left: isMobile ? '1rem' : '2rem',
       background: 'rgba(255, 255, 255, 0.2)',
       border: 'none',
       color: 'white',
-      padding: '1rem 2rem',
+      padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
       borderRadius: '50px',
       cursor: 'pointer',
       fontWeight: '600',
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
       transition: 'all 0.3s ease',
-      backdropFilter: 'blur(10px)'
+      backdropFilter: 'blur(10px)',
+      zIndex: 10
     },
     flowerIcon: {
       position: 'absolute',
-      fontSize: '3rem',
+      fontSize: isMobile ? '2rem' : '3rem',
       opacity: 0.1,
-      animation: 'float 6s ease-in-out infinite'
+      animation: 'float 6s ease-in-out infinite',
+      display: isMobile ? 'none' : 'block' // Hide on mobile for better performance
+    },
+    businessTitle: {
+      fontSize: isMobile ? '1.6rem' : '2rem',
+      fontWeight: '700',
+      color: 'white',
+      marginBottom: isMobile ? '1.5rem' : '2rem',
+      textAlign: 'center'
+    },
+    contactDetail: {
+      color: 'rgba(255, 255, 255, 0.8)',
+      fontSize: isMobile ? '1rem' : '1.1rem',
+      marginTop: '0.5rem'
     }
   };
 
@@ -300,13 +331,17 @@ const ContactPage = () => {
           e.target.style.transform = 'translateX(0)';
         }}
       >
-        ← Back to Home
+        ← {isMobile ? 'Back' : 'Back to Home'}
       </button>
 
-      {/* Floating Flower Icons */}
-      <div style={{...styles.flowerIcon, top: '10%', left: '5%', animationDelay: '0s'}}>🌸</div>
-      <div style={{...styles.flowerIcon, top: '20%', right: '8%', animationDelay: '2s'}}>💐</div>
-      <div style={{...styles.flowerIcon, bottom: '30%', left: '10%', animationDelay: '4s'}}>🌹</div>
+      {/* Floating Flower Icons - Hidden on mobile */}
+      {!isMobile && (
+        <>
+          <div style={{...styles.flowerIcon, top: '10%', left: '5%', animationDelay: '0s'}}>🌸</div>
+          <div style={{...styles.flowerIcon, top: '20%', right: '8%', animationDelay: '2s'}}>💐</div>
+          <div style={{...styles.flowerIcon, bottom: '30%', left: '10%', animationDelay: '4s'}}>🌹</div>
+        </>
+      )}
       
       <div style={styles.container}>
         {/* Hero Section */}
@@ -369,7 +404,7 @@ const ContactPage = () => {
                   e.target.style.boxShadow = '0 8px 25px rgba(37, 211, 102, 0.3)';
                 }}
               >
-                💬 Chat on WhatsApp
+                💬 {isMobile ? 'WhatsApp' : 'Chat on WhatsApp'}
               </button>
               
               <button 
@@ -384,7 +419,7 @@ const ContactPage = () => {
                   e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
                 }}
               >
-                📞 Call Directly
+                📞 {isMobile ? 'Call' : 'Call Directly'}
               </button>
 
               <button 
@@ -399,7 +434,7 @@ const ContactPage = () => {
                   e.target.style.boxShadow = '0 8px 25px rgba(255, 107, 107, 0.3)';
                 }}
               >
-                📧 Send Email
+                📧 {isMobile ? 'Email' : 'Send Email'}
               </button>
             </div>
 
@@ -416,19 +451,19 @@ const ContactPage = () => {
                 e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
               }}
             >
-              📋 Copy Phone Number
+              📋 {isMobile ? 'Copy Number' : 'Copy Phone Number'}
             </button>
           </div>
 
           {/* Business Information */}
           <div style={styles.businessInfo}>
-            <h3 style={{...styles.ownerName, fontSize: '2rem', marginBottom: '2rem'}}>Business Information</h3>
+            <h3 style={styles.businessTitle}>Business Information</h3>
             
             <div style={styles.contactItem}>
               <span style={styles.contactIcon}>📧</span>
               <div>
                 <div style={styles.contactText}>Email Address</div>
-                <div style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.1rem'}}>{ownerInfo.email}</div>
+                <div style={styles.contactDetail}>{ownerInfo.email}</div>
               </div>
             </div>
 
@@ -436,7 +471,7 @@ const ContactPage = () => {
               <span style={styles.contactIcon}>📍</span>
               <div>
                 <div style={styles.contactText}>Location</div>
-                <div style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.1rem'}}>{ownerInfo.address}</div>
+                <div style={styles.contactDetail}>{ownerInfo.address}</div>
               </div>
             </div>
 
@@ -444,21 +479,21 @@ const ContactPage = () => {
               <span style={styles.contactIcon}>🕐</span>
               <div>
                 <div style={styles.contactText}>Business Hours</div>
-                <div style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.1rem'}}>{ownerInfo.businessHours}</div>
+                <div style={styles.contactDetail}>{ownerInfo.businessHours}</div>
               </div>
             </div>
 
             {/* Quick Message */}
             <div style={{
-              marginTop: '2rem',
-              padding: '1.5rem',
+              marginTop: isMobile ? '1.5rem' : '2rem',
+              padding: isMobile ? '1rem' : '1.5rem',
               background: 'rgba(255, 255, 255, 0.05)',
               borderRadius: '15px',
               border: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
               <p style={{
                 color: 'rgba(255, 255, 255, 0.9)',
-                fontSize: '1rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 lineHeight: '1.6',
                 textAlign: 'center'
               }}>
@@ -483,6 +518,37 @@ const ContactPage = () => {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+
+        /* Mobile-first responsive design */
+        @media (max-width: 480px) {
+          .contactPage {
+            padding: 5rem 0.8rem 1rem !important;
+          }
+          .heroSection {
+            padding: 1.5rem 1rem !important;
+          }
+          .contactCard {
+            padding: 1.5rem 1rem !important;
+          }
+          .businessInfo {
+            padding: 1.5rem 1rem !important;
+          }
+        }
+
+        /* Tablet optimization */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .contentGrid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+        }
+
+        /* Large screen enhancements */
+        @media (min-width: 1025px) {
+          .contentGrid {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
         }
       `}</style>

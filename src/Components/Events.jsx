@@ -4,7 +4,18 @@ const Events = () => {
   const [activeVideo, setActiveVideo] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [videoLoaded, setVideoLoaded] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
   const videoRefs = useRef([]);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const events = [
     {
@@ -140,7 +151,7 @@ const Events = () => {
 
   const styles = {
     events: {
-      padding: '120px 2rem 5rem 2rem',
+      padding: isMobile ? '100px 1rem 2rem 1rem' : '120px 2rem 5rem 2rem',
       background: 'linear-gradient(135deg, #f8f6f2 0%, #fefefe 100%)',
       minHeight: '100vh'
     },
@@ -150,10 +161,10 @@ const Events = () => {
     },
     header: {
       textAlign: 'center',
-      marginBottom: '6rem'
+      marginBottom: isMobile ? '4rem' : '6rem'
     },
     title: {
-      fontSize: '4rem',
+      fontSize: isMobile ? '2.5rem' : '4rem',
       color: '#8b0000',
       fontFamily: "'Playfair Display', serif",
       fontWeight: '700',
@@ -161,10 +172,11 @@ const Events = () => {
       background: 'linear-gradient(135deg, #8b0000, #dc2626)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text'
+      backgroundClip: 'text',
+      lineHeight: '1.1'
     },
     subtitle: {
-      fontSize: '1.4rem',
+      fontSize: isMobile ? '1.1rem' : '1.4rem',
       color: '#666',
       fontFamily: "'Playfair Display', serif",
       fontStyle: 'italic',
@@ -174,26 +186,26 @@ const Events = () => {
     },
     eventsGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-      gap: '3rem',
-      padding: '0 1rem'
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))',
+      gap: isMobile ? '2rem' : '3rem',
+      padding: isMobile ? '0' : '0 1rem'
     },
     eventCard: {
       background: 'white',
-      borderRadius: '25px',
+      borderRadius: isMobile ? '20px' : '25px',
       overflow: 'hidden',
       boxShadow: '0 15px 40px rgba(139, 0, 0, 0.15)',
-      transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: isMobile ? 'none' : 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       border: '1px solid rgba(139, 0, 0, 0.1)',
       position: 'relative'
     },
     eventCardHovered: {
-      transform: 'translateY(-15px)',
-      boxShadow: '0 30px 60px rgba(139, 0, 0, 0.25)'
+      transform: isMobile ? 'none' : 'translateY(-15px)',
+      boxShadow: isMobile ? '0 15px 40px rgba(139, 0, 0, 0.15)' : '0 30px 60px rgba(139, 0, 0, 0.25)'
     },
     mediaContainer: {
       position: 'relative',
-      height: '300px',
+      height: isMobile ? '250px' : '300px',
       overflow: 'hidden',
       background: '#f8f6f2'
     },
@@ -201,10 +213,10 @@ const Events = () => {
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      transition: 'transform 0.5s ease'
+      transition: isMobile ? 'none' : 'transform 0.5s ease'
     },
     mediaHovered: {
-      transform: 'scale(1.1)'
+      transform: isMobile ? 'none' : 'scale(1.1)'
     },
     video: {
       width: '100%',
@@ -217,8 +229,8 @@ const Events = () => {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: '80px',
-      height: '80px',
+      width: isMobile ? '60px' : '80px',
+      height: isMobile ? '60px' : '80px',
       background: 'rgba(139, 0, 0, 0.85)',
       borderRadius: '50%',
       display: 'flex',
@@ -232,46 +244,46 @@ const Events = () => {
     },
     playButtonHovered: {
       background: 'rgba(139, 0, 0, 0.95)',
-      transform: 'translate(-50%, -50%) scale(1.1)'
+      transform: isMobile ? 'translate(-50%, -50%)' : 'translate(-50%, -50%) scale(1.1)'
     },
     playIcon: {
       width: '0',
       height: '0',
-      borderTop: '15px solid transparent',
-      borderBottom: '15px solid transparent',
-      borderLeft: '25px solid white',
-      marginLeft: '5px'
+      borderTop: isMobile ? '12px solid transparent' : '15px solid transparent',
+      borderBottom: isMobile ? '12px solid transparent' : '15px solid transparent',
+      borderLeft: isMobile ? '20px solid white' : '25px solid white',
+      marginLeft: isMobile ? '3px' : '5px'
     },
     eventContent: {
-      padding: '2.5rem'
+      padding: isMobile ? '2rem 1.5rem' : '2.5rem'
     },
     yearBadge: {
       position: 'absolute',
-      top: '20px',
-      left: '20px',
+      top: isMobile ? '15px' : '20px',
+      left: isMobile ? '15px' : '20px',
       background: 'linear-gradient(135deg, #8b0000, #dc2626)',
       color: 'white',
-      padding: '0.8rem 1.5rem',
+      padding: isMobile ? '0.6rem 1.2rem' : '0.8rem 1.5rem',
       borderRadius: '25px',
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       fontWeight: '700',
       fontFamily: "'Playfair Display', serif",
       boxShadow: '0 5px 15px rgba(139, 0, 0, 0.3)',
       zIndex: '2'
     },
     eventTitle: {
-      fontSize: '1.8rem',
+      fontSize: isMobile ? '1.5rem' : '1.8rem',
       fontWeight: '600',
       color: '#8b0000',
       fontFamily: "'Playfair Display', serif",
-      marginBottom: '1.2rem',
+      marginBottom: isMobile ? '1rem' : '1.2rem',
       lineHeight: '1.3'
     },
     eventDescription: {
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       color: '#666',
       lineHeight: '1.7',
-      marginBottom: '1.8rem',
+      marginBottom: isMobile ? '1.5rem' : '1.8rem',
       fontFamily: "'Inter', sans-serif"
     },
     achievements: {
@@ -280,33 +292,33 @@ const Events = () => {
       margin: '0'
     },
     achievement: {
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       color: '#8b0000',
-      marginBottom: '0.8rem',
+      marginBottom: isMobile ? '0.6rem' : '0.8rem',
       fontFamily: "'Inter', sans-serif",
       display: 'flex',
       alignItems: 'center',
       fontWeight: '500',
-      padding: '0.5rem 0',
+      padding: isMobile ? '0.4rem 0' : '0.5rem 0',
       borderBottom: '1px solid rgba(139, 0, 0, 0.1)'
     },
     achievementDot: {
-      width: '10px',
-      height: '10px',
+      width: isMobile ? '8px' : '10px',
+      height: isMobile ? '8px' : '10px',
       borderRadius: '50%',
       background: '#8b0000',
-      marginRight: '1rem',
+      marginRight: isMobile ? '0.8rem' : '1rem',
       flexShrink: '0'
     },
     videoIndicator: {
       position: 'absolute',
-      top: '20px',
-      right: '20px',
+      top: isMobile ? '15px' : '20px',
+      right: isMobile ? '15px' : '20px',
       background: 'rgba(139, 0, 0, 0.9)',
       color: 'white',
-      padding: '0.5rem 1rem',
+      padding: isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem',
       borderRadius: '15px',
-      fontSize: '0.9rem',
+      fontSize: isMobile ? '0.8rem' : '0.9rem',
       fontWeight: '600',
       fontFamily: "'Inter', sans-serif",
       zIndex: '2',
@@ -315,7 +327,7 @@ const Events = () => {
       gap: '0.5rem'
     },
     videoIcon: {
-      fontSize: '1.2rem'
+      fontSize: isMobile ? '1rem' : '1.2rem'
     },
     loadingText: {
       position: 'absolute',
@@ -325,12 +337,53 @@ const Events = () => {
       color: '#8b0000',
       fontFamily: "'Inter', sans-serif",
       fontWeight: '600',
-      zIndex: 2
+      zIndex: 2,
+      fontSize: isMobile ? '0.9rem' : '1rem'
+    },
+    backButton: {
+      position: 'fixed',
+      top: isMobile ? '1rem' : '2rem',
+      left: isMobile ? '1rem' : '2rem',
+      background: 'rgba(139, 0, 0, 0.9)',
+      border: 'none',
+      color: 'white',
+      padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
+      borderRadius: '50px',
+      cursor: 'pointer',
+      fontWeight: '600',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      transition: 'all 0.3s ease',
+      backdropFilter: 'blur(10px)',
+      zIndex: 100,
+      boxShadow: '0 5px 15px rgba(139, 0, 0, 0.3)'
     }
+  };
+
+  const handleBackClick = () => {
+    window.history.back();
   };
 
   return (
     <section style={styles.events} id="events">
+      {/* Back Button */}
+      <button 
+        style={styles.backButton}
+        onClick={handleBackClick}
+        onMouseEnter={(e) => {
+          e.target.style.background = 'rgba(139, 0, 0, 1)';
+          e.target.style.transform = 'translateX(-5px)';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = 'rgba(139, 0, 0, 0.9)';
+          e.target.style.transform = 'translateX(0)';
+        }}
+      >
+        ← {isMobile ? 'Back' : 'Back to Home'}
+      </button>
+
       <div style={styles.container}>
         <div style={styles.header}>
           <h2 style={styles.title}>Our Journey Through Time</h2>
@@ -348,8 +401,9 @@ const Events = () => {
                 ...(hoveredCard === event.id ? styles.eventCardHovered : {})
               }}
               className="event-card"
-              onMouseEnter={() => setHoveredCard(event.id)}
-              onMouseLeave={() => setHoveredCard(null)}
+              onMouseEnter={() => !isMobile && setHoveredCard(event.id)}
+              onMouseLeave={() => !isMobile && setHoveredCard(null)}
+              onClick={() => isMobile && setHoveredCard(hoveredCard === event.id ? null : event.id)}
             >
               {/* Year Badge */}
               <div style={styles.yearBadge}>
@@ -360,7 +414,7 @@ const Events = () => {
               {event.mediaType === 'video' && (
                 <div style={styles.videoIndicator}>
                   <span style={styles.videoIcon}>🎥</span>
-                  Video Story
+                  {isMobile ? 'Video' : 'Video Story'}
                 </div>
               )}
 
@@ -418,6 +472,7 @@ const Events = () => {
                       ...styles.media,
                       ...(hoveredCard === event.id ? styles.mediaHovered : {})
                     }}
+                    loading="lazy"
                   />
                 )}
               </div>
@@ -443,9 +498,9 @@ const Events = () => {
       <style jsx>{`
         .events-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-          gap: 3rem;
-          padding: 0 1rem;
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          padding: 0;
         }
 
         .event-card {
@@ -470,45 +525,54 @@ const Events = () => {
           }
         }
 
-        /* Mobile Responsive Styles */
-        @media (max-width: 968px) {
+        /* Mobile-first responsive design */
+        @media (max-width: 480px) {
           .events-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            padding: 0;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .event-title {
-            font-size: 1.6rem !important;
+            gap: 1.5rem;
           }
           
-          .year-badge {
-            font-size: 1rem !important;
-            padding: 0.6rem 1.2rem !important;
-          }
-
-          .media-container {
-            height: 250px !important;
-          }
-        }
-
-        @media (max-width: 480px) {
           .event-title {
             font-size: 1.4rem !important;
           }
           
-          .events-section {
-            padding: 100px 1rem 3rem 1rem !important;
-          }
-          
           .event-content {
-            padding: 2rem 1.5rem !important;
+            padding: 1.5rem !important;
           }
 
+          .media-container {
+            height: 220px !important;
+          }
+
+          .year-badge {
+            font-size: 0.9rem !important;
+            padding: 0.5rem 1rem !important;
+          }
+        }
+
+        /* Tablet optimization */
+        @media (min-width: 769px) {
           .events-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            padding: 0 1rem;
+          }
+        }
+
+        /* Large screen enhancements */
+        @media (min-width: 1025px) {
+          .events-grid {
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+          }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .event-card:hover {
+            transform: none !important;
+          }
+          
+          .play-button:hover {
+            transform: translate(-50%, -50%) !important;
           }
         }
       `}</style>

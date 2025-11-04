@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 
 const AboutPage = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const teamMembers = [
@@ -46,28 +54,22 @@ const AboutPage = () => {
     { year: "2023", event: "Award Winner", description: "Received Kenya's Best Florist Award 2023" }
   ];
 
-  // Array of different rose images for variety
   const roseImages = [
     'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHJlZCUyMHJvc2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=2000&q=80',
     'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHJvc2VzJTIwYm91cXVldHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=2000&q=80',
-    'https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cm9zZXMlMjBtaXhlZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=2000&q=80',
-    'https://images.unsplash.com/photo-1468327768560-75b778cbb551?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHJvc2VzJTIwbWl4ZWR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=2000&q=80',
-    'https://images.unsplash.com/photo-1562555192-2d1e4a4d4d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBpbmslMjByb3Nlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=2000&q=80'
+    'https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cm9zZXMlMjBtaXhlZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=2000&q=80'
   ];
 
   const styles = {
     aboutPage: {
       minHeight: '100vh',
       background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
-                   url('${roseImages[0]}'),
-                   url('${roseImages[1]}'),
-                   url('${roseImages[2]}')`,
-      backgroundSize: 'cover, 30% 50%, 40% 60%',
-      backgroundPosition: 'center, left top, right bottom',
-      backgroundRepeat: 'no-repeat, no-repeat, no-repeat',
-      backgroundBlendMode: 'overlay, multiply, multiply',
-      backgroundAttachment: 'fixed, fixed, fixed',
-      padding: '8rem 2rem 4rem',
+                   url('${roseImages[0]}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: isMobile ? 'scroll' : 'fixed',
+      padding: isMobile ? '6rem 1rem 2rem' : '8rem 2rem 4rem',
       color: 'white',
       fontFamily: "'Playfair Display', 'Georgia', serif",
       position: 'relative',
@@ -97,16 +99,16 @@ const AboutPage = () => {
     },
     heroSection: {
       textAlign: 'center',
-      marginBottom: '6rem',
-      padding: '3rem',
+      marginBottom: isMobile ? '4rem' : '6rem',
+      padding: isMobile ? '2rem 1.5rem' : '3rem',
       background: 'rgba(255, 255, 255, 0.1)',
       backdropFilter: 'blur(20px)',
-      borderRadius: '25px',
+      borderRadius: isMobile ? '20px' : '25px',
       border: '1px solid rgba(255, 255, 255, 0.2)',
       boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
     },
     mainTitle: {
-      fontSize: '4.5rem',
+      fontSize: isMobile ? '2.5rem' : '4.5rem',
       fontWeight: '700',
       marginBottom: '1.5rem',
       background: 'linear-gradient(135deg, #fff, #ff6b6b, #ffb6c1)',
@@ -117,7 +119,7 @@ const AboutPage = () => {
       lineHeight: '1.1'
     },
     subtitle: {
-      fontSize: '1.6rem',
+      fontSize: isMobile ? '1.2rem' : '1.6rem',
       opacity: 0.9,
       marginBottom: '2rem',
       fontWeight: '300',
@@ -127,18 +129,18 @@ const AboutPage = () => {
     section: {
       background: 'rgba(255, 255, 255, 0.08)',
       backdropFilter: 'blur(20px)',
-      padding: '4rem 3rem',
-      borderRadius: '25px',
-      marginBottom: '4rem',
+      padding: isMobile ? '2rem 1.5rem' : '4rem 3rem',
+      borderRadius: isMobile ? '20px' : '25px',
+      marginBottom: isMobile ? '3rem' : '4rem',
       border: '1px solid rgba(255, 255, 255, 0.15)',
       boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2)',
       position: 'relative',
       overflow: 'hidden'
     },
     sectionTitle: {
-      fontSize: '3rem',
+      fontSize: isMobile ? '2.2rem' : '3rem',
       fontWeight: '600',
-      marginBottom: '3rem',
+      marginBottom: isMobile ? '2rem' : '3rem',
       textAlign: 'center',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e, #ffb6c1)',
       WebkitBackgroundClip: 'text',
@@ -148,14 +150,14 @@ const AboutPage = () => {
     },
     contentGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '4rem',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+      gap: isMobile ? '2rem' : '4rem',
       alignItems: 'start'
     },
     storyContent: {
-      fontSize: '1.3rem',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
       lineHeight: '1.9',
-      textAlign: 'justify',
+      textAlign: isMobile ? 'left' : 'justify',
       opacity: 0.95,
       textShadow: '0 1px 4px rgba(0, 0, 0, 0.2)'
     },
@@ -166,13 +168,13 @@ const AboutPage = () => {
     },
     valuesGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-      gap: '2.5rem',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: isMobile ? '1.5rem' : '2.5rem',
       marginTop: '2rem'
     },
     valueCard: {
       background: 'rgba(255, 255, 255, 0.08)',
-      padding: '3rem 2rem',
+      padding: isMobile ? '2rem 1.5rem' : '3rem 2rem',
       borderRadius: '20px',
       textAlign: 'center',
       border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -187,7 +189,7 @@ const AboutPage = () => {
       borderColor: 'rgba(255, 182, 193, 0.3)'
     },
     valueIcon: {
-      fontSize: '3.5rem',
+      fontSize: isMobile ? '2.5rem' : '3.5rem',
       marginBottom: '1.5rem',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e, #ffb6c1)',
       WebkitBackgroundClip: 'text',
@@ -196,7 +198,7 @@ const AboutPage = () => {
       filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))'
     },
     valueTitle: {
-      fontSize: '1.6rem',
+      fontSize: isMobile ? '1.4rem' : '1.6rem',
       fontWeight: '600',
       marginBottom: '1.5rem',
       color: 'white'
@@ -204,17 +206,17 @@ const AboutPage = () => {
     valueDescription: {
       opacity: 0.9,
       lineHeight: '1.7',
-      fontSize: '1.1rem'
+      fontSize: isMobile ? '1rem' : '1.1rem'
     },
     teamGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '3rem',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+      gap: isMobile ? '2rem' : '3rem',
       marginTop: '2rem'
     },
     teamCard: {
       background: 'rgba(255, 255, 255, 0.08)',
-      padding: '3rem 2rem',
+      padding: isMobile ? '2rem 1.5rem' : '3rem 2rem',
       borderRadius: '20px',
       textAlign: 'center',
       border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -228,21 +230,21 @@ const AboutPage = () => {
       boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)'
     },
     teamImage: {
-      width: '120px',
-      height: '120px',
+      width: isMobile ? '100px' : '120px',
+      height: isMobile ? '100px' : '120px',
       borderRadius: '50%',
       margin: '0 auto 2rem',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e, #ffb6c1)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: '3.5rem',
+      fontSize: isMobile ? '2.5rem' : '3.5rem',
       color: 'white',
       boxShadow: '0 10px 25px rgba(255, 107, 107, 0.4)',
       border: '3px solid rgba(255, 255, 255, 0.2)'
     },
     teamName: {
-      fontSize: '1.5rem',
+      fontSize: isMobile ? '1.3rem' : '1.5rem',
       fontWeight: '600',
       marginBottom: '0.8rem',
       color: 'white'
@@ -251,17 +253,17 @@ const AboutPage = () => {
       color: '#ffb6c1',
       fontWeight: '500',
       marginBottom: '1.5rem',
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
     },
     teamDescription: {
       opacity: 0.9,
       lineHeight: '1.7',
       marginBottom: '1.5rem',
-      fontSize: '1.1rem'
+      fontSize: isMobile ? '1rem' : '1.1rem'
     },
     teamExpertise: {
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       opacity: 0.8,
       fontStyle: 'italic',
       color: '#ffb6c1'
@@ -273,34 +275,37 @@ const AboutPage = () => {
     },
     timelineItem: {
       display: 'flex',
-      alignItems: 'center',
-      marginBottom: '4rem',
+      flexDirection: isMobile ? 'column' : 'row',
+      alignItems: isMobile ? 'center' : 'flex-start',
+      marginBottom: isMobile ? '3rem' : '4rem',
       opacity: 0,
       animation: 'fadeInUp 0.6s ease forwards'
     },
     timelineYear: {
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)',
       color: 'white',
-      padding: '1.2rem 2rem',
+      padding: isMobile ? '1rem 1.5rem' : '1.2rem 2rem',
       borderRadius: '50px',
       fontWeight: '700',
-      fontSize: '1.3rem',
-      minWidth: '140px',
+      fontSize: isMobile ? '1.1rem' : '1.3rem',
+      minWidth: isMobile ? '120px' : '140px',
       textAlign: 'center',
       boxShadow: '0 8px 20px rgba(255, 107, 107, 0.4)',
-      border: '2px solid rgba(255, 255, 255, 0.2)'
+      border: '2px solid rgba(255, 255, 255, 0.2)',
+      marginBottom: isMobile ? '1rem' : '0',
+      marginRight: isMobile ? '0' : '3rem'
     },
     timelineContent: {
       background: 'rgba(255, 255, 255, 0.08)',
-      padding: '2rem',
+      padding: isMobile ? '1.5rem' : '2rem',
       borderRadius: '20px',
-      marginLeft: '3rem',
       flex: 1,
       border: '1px solid rgba(255, 255, 255, 0.1)',
-      backdropFilter: 'blur(10px)'
+      backdropFilter: 'blur(10px)',
+      textAlign: isMobile ? 'center' : 'left'
     },
     timelineEvent: {
-      fontSize: '1.5rem',
+      fontSize: isMobile ? '1.3rem' : '1.5rem',
       fontWeight: '600',
       marginBottom: '1rem',
       color: 'white'
@@ -308,24 +313,24 @@ const AboutPage = () => {
     timelineDescription: {
       opacity: 0.9,
       lineHeight: '1.6',
-      fontSize: '1.1rem'
+      fontSize: isMobile ? '1rem' : '1.1rem'
     },
     statsGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-      gap: '3rem',
+      gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(220px, 1fr))',
+      gap: isMobile ? '1.5rem' : '3rem',
       marginTop: '2rem'
     },
     statCard: {
       textAlign: 'center',
-      padding: '2.5rem 1rem',
+      padding: isMobile ? '1.5rem 1rem' : '2.5rem 1rem',
       background: 'rgba(255, 255, 255, 0.05)',
       borderRadius: '20px',
       border: '1px solid rgba(255, 255, 255, 0.1)',
       backdropFilter: 'blur(10px)'
     },
     statNumber: {
-      fontSize: '3.5rem',
+      fontSize: isMobile ? '2.5rem' : '3.5rem',
       fontWeight: '700',
       background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e, #ffb6c1)',
       WebkitBackgroundClip: 'text',
@@ -335,30 +340,31 @@ const AboutPage = () => {
       textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)'
     },
     statLabel: {
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1rem' : '1.2rem',
       opacity: 0.9,
       fontWeight: '500'
     },
     flowerIcon: {
       position: 'absolute',
-      fontSize: '3rem',
+      fontSize: isMobile ? '2rem' : '3rem',
       opacity: 0.15,
       animation: 'float 8s ease-in-out infinite',
       zIndex: 1,
-      filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))'
+      filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))',
+      display: isMobile ? 'none' : 'block' // Hide on mobile for performance
     },
     backButton: {
-      position: 'absolute',
-      top: '2rem',
-      left: '2rem',
+      position: 'fixed',
+      top: isMobile ? '1rem' : '2rem',
+      left: isMobile ? '1rem' : '2rem',
       background: 'rgba(255, 255, 255, 0.2)',
       border: 'none',
       color: 'white',
-      padding: '1rem 2rem',
+      padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
       borderRadius: '50px',
       cursor: 'pointer',
       fontWeight: '600',
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
@@ -392,15 +398,18 @@ const AboutPage = () => {
           e.target.style.transform = 'translateX(0)';
         }}
       >
-        ← Back to Home
+        ← Back
       </button>
 
       {/* Floating Flower Icons */}
-      <div style={{...styles.flowerIcon, top: '15%', left: '8%', animationDelay: '0s'}}>🌹</div>
-      <div style={{...styles.flowerIcon, top: '25%', right: '12%', animationDelay: '1.5s'}}>🌸</div>
-      <div style={{...styles.flowerIcon, bottom: '35%', left: '12%', animationDelay: '3s'}}>💐</div>
-      <div style={{...styles.flowerIcon, top: '60%', right: '8%', animationDelay: '4.5s'}}>🌷</div>
-      <div style={{...styles.flowerIcon, bottom: '20%', left: '85%', animationDelay: '6s'}}>🌺</div>
+      {!isMobile && (
+        <>
+          <div style={{...styles.flowerIcon, top: '15%', left: '8%', animationDelay: '0s'}}>🌹</div>
+          <div style={{...styles.flowerIcon, top: '25%', right: '12%', animationDelay: '1.5s'}}>🌸</div>
+          <div style={{...styles.flowerIcon, bottom: '35%', left: '12%', animationDelay: '3s'}}>💐</div>
+          <div style={{...styles.flowerIcon, top: '60%', right: '8%', animationDelay: '4.5s'}}>🌷</div>
+        </>
+      )}
       
       <div style={styles.container}>
         {/* Hero Section */}
@@ -408,7 +417,7 @@ const AboutPage = () => {
           <h1 style={styles.mainTitle}>Our Story</h1>
           <p style={styles.subtitle}>
             From a passionate dream to Kenya's premier floral destination - 
-            Bloomify has been crafting unforgettable moments through the language of flowers since 2018.
+            Pson has been crafting unforgettable moments through the language of flowers since 2018.
           </p>
         </div>
 
@@ -533,7 +542,7 @@ const AboutPage = () => {
         <div style={styles.section}>
           <h2 style={styles.sectionTitle}>Our Mission</h2>
           <div style={styles.storyContent}>
-            <p style={{textAlign: 'center', fontSize: '1.5rem', lineHeight: '1.9', fontStyle: 'italic'}}>
+            <p style={{textAlign: 'center', fontSize: isMobile ? '1.2rem' : '1.5rem', lineHeight: '1.9', fontStyle: 'italic'}}>
               "To transform ordinary moments into extraordinary memories through the timeless beauty of flowers, 
               while building a sustainable business that supports local communities and brings joy to every 
               Kenyan household."
@@ -557,6 +566,36 @@ const AboutPage = () => {
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        /* Mobile-first responsive design */
+        @media (max-width: 480px) {
+          .heroSection {
+            padding: 1.5rem 1rem !important;
+          }
+          .section {
+            padding: 1.5rem 1rem !important;
+          }
+          .statCard {
+            padding: 1rem 0.5rem !important;
+          }
+        }
+
+        /* Tablet optimization */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .contentGrid {
+            grid-template-columns: 1fr !important;
+          }
+          .teamGrid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+
+        /* Large screen enhancements */
+        @media (min-width: 1025px) {
+          .contentGrid {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+          }
         }
       `}</style>
     </div>
