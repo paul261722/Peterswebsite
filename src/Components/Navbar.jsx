@@ -95,7 +95,9 @@ const Navbar = () => {
       padding: isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem',
       borderRadius: '20px',
       background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(255, 215, 0, 0.1))',
-      border: '1px solid rgba(139, 0, 0, 0.1)'
+      border: '1px solid rgba(139, 0, 0, 0.1)',
+      minWidth: isMobile ? 'auto' : 'auto',
+      flexShrink: 0
     },
     logoIcon: {
       fontSize: isMobile ? '1.8rem' : '2.5rem',
@@ -104,10 +106,11 @@ const Navbar = () => {
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
       animation: 'petalFall 3s infinite',
-      filter: 'drop-shadow(0 2px 4px rgba(139, 0, 0, 0.3))'
+      filter: 'drop-shadow(0 2px 4px rgba(139, 0, 0, 0.3))',
+      flexShrink: 0
     },
     logoText: {
-      fontSize: isMobile ? '1.2rem' : '2rem',
+      fontSize: isMobile ? '1.1rem' : '2rem', // Show text on mobile with smaller size
       fontWeight: '800',
       background: 'linear-gradient(135deg, #8b0000, #dc2626, #b91c1c)',
       WebkitBackgroundClip: 'text',
@@ -115,7 +118,22 @@ const Navbar = () => {
       backgroundClip: 'text',
       letterSpacing: '-0.5px',
       textShadow: '0 2px 4px rgba(139, 0, 0, 0.1)',
-      display: isMobile ? 'none' : 'block' // Hide text on mobile, show icon only
+      display: 'block', // Always show the text
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      maxWidth: isMobile ? '120px' : 'none' // Limit width on mobile to prevent overflow
+    },
+    logoTextShort: {
+      fontSize: isMobile ? '1.1rem' : '2rem',
+      fontWeight: '800',
+      background: 'linear-gradient(135deg, #8b0000, #dc2626, #b91c1c)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      letterSpacing: '-0.5px',
+      textShadow: '0 2px 4px rgba(139, 0, 0, 0.1)',
+      display: 'block'
     },
     navItems: {
       display: isMobile ? 'none' : 'flex',
@@ -171,7 +189,9 @@ const Navbar = () => {
       borderRadius: '15px',
       transition: 'all 0.3s ease',
       background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(255, 215, 0, 0.1))',
-      border: '1px solid rgba(139, 0, 0, 0.1)'
+      border: '1px solid rgba(139, 0, 0, 0.1)',
+      marginLeft: 'auto',
+      flexShrink: 0
     },
     hamburgerLine: {
       width: '24px',
@@ -255,7 +275,7 @@ const Navbar = () => {
   return (
     <nav style={styles.navbar}>
       <div style={styles.navContainer}>
-        {/* Enhanced Logo */}
+        {/* Enhanced Logo - Always show shop name */}
         <Link 
           to="/"
           style={styles.logo}
@@ -270,7 +290,9 @@ const Navbar = () => {
           }}
         >
           <div style={styles.logoIcon}>🌹</div>
-          <div style={styles.logoText}>Pson Floral Expert</div>
+          <div style={isMobile ? styles.logoTextShort : styles.logoText}>
+            {isMobile ? 'Pson Floral' : 'Pson Floral Expert'}
+          </div>
         </Link>
         
         {/* Decorative Line */}
@@ -376,9 +398,7 @@ const Navbar = () => {
           .hamburger { 
             display: flex !important; 
           }
-          .logoText {
-            display: none !important;
-          }
+          /* Remove the logo text hiding rule */
         }
         
         @media (min-width: 769px) {
@@ -387,9 +407,6 @@ const Navbar = () => {
           }
           .hamburger { 
             display: none !important; 
-          }
-          .logoText {
-            display: block !important;
           }
         }
         
@@ -400,6 +417,7 @@ const Navbar = () => {
           }
           .logo {
             padding: 0.3rem 0.6rem !important;
+            gap: 0.3rem !important;
           }
           .logoIcon {
             font-size: 1.5rem !important;
@@ -412,6 +430,17 @@ const Navbar = () => {
           .mobileNavItem {
             padding: 0.8rem 1rem !important;
             font-size: 0.9rem !important;
+          }
+        }
+        
+        /* Very small devices */
+        @media (max-width: 360px) {
+          .logoTextShort {
+            font-size: 1rem !important;
+            max-width: 100px !important;
+          }
+          .logo {
+            padding: 0.2rem 0.4rem !important;
           }
         }
         
