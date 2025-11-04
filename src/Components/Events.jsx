@@ -22,7 +22,7 @@ const Events = () => {
       year: "2019",
       title: "First Major Event",
       description: "Provided floral arrangements for our first corporate event - a gala for 200+ guests. This was our breakthrough moment.",
-      media: "/Images/Assets/Assets/event1.jpg",
+      media: "/Images/Assets/Assets/Event1.jpg",
       mediaType: "image",
       achievements: ["First corporate client", "Expanded team to 3 people", "Doubled monthly revenue"]
     },
@@ -31,7 +31,7 @@ const Events = () => {
       year: "2020",
       title: "Overcoming Challenges",
       description: "Despite the pandemic, we pivoted to contactless deliveries and virtual consultations. Our resilience paid off.",
-      media: "/Images/Assets/Assets/event2.jpg",
+      media: "/Images/Assets/Assets/Event2.jpg",
       mediaType: "image",
       achievements: ["Launched online store", "Started virtual workshops", "Maintained 80% of pre-pandemic revenue"]
     },
@@ -40,7 +40,7 @@ const Events = () => {
       year: "2021",
       title: "Expansion Era",
       description: "Opened our first physical storefront and expanded our team. Started specializing in luxury wedding arrangements.",
-      media: "/Images/Assets/Assets/event3.jpg",
+      media: "/Images/Assets/Assets/Event3.jpg",
       mediaType: "image",
       achievements: ["Opened first store", "Team grew to 8 members", "Featured in local magazine"]
     },
@@ -59,7 +59,7 @@ const Events = () => {
       year: "2023",
       title: "Community Impact",
       description: "Launched our floral workshop program for underprivileged youth. Giving back to the community that supported us.",
-      media: "/Images/Assets/Assets/event6.jpg",
+      media: "/Images/Assets/Assets/Event6.jpg",
       mediaType: "image",
       achievements: ["Trained 50+ students", "Community partnership", "Sustainability initiatives"]
     },
@@ -68,7 +68,7 @@ const Events = () => {
       year: "2024",
       title: "International Reach",
       description: "Expanded our services to international clients and started shipping preserved arrangements worldwide.",
-      media: "/Images/Assets/Assets/event11.jpeg",
+      media: "/Images/Assets/Assets/Event11.jpeg",
       mediaType: "image",
       achievements: ["International shipping", "Global client base", "Premium service tier"]
     },
@@ -77,7 +77,7 @@ const Events = () => {
       year: "2025",
       title: "Future Vision",
       description: "Launching our own line of preserved floral arrangements and expanding into event planning services.",
-      media: "/Images/Assets/Assets/event9.jpg",
+      media: "/Images/Assets/Assets/Event9.jpg",
       mediaType: "image",
       achievements: ["New product line", "Event planning services", "Brand collaborations"]
     }
