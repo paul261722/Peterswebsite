@@ -6,6 +6,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState('Home');
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
 
   // Detect scroll for navbar background change
@@ -15,6 +16,17 @@ const Navbar = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Update active item based on current route
@@ -51,7 +63,7 @@ const Navbar = () => {
         ? 'rgba(255, 255, 255, 0.97)' 
         : 'rgba(255, 255, 255, 0.90)',
       backdropFilter: 'blur(25px)',
-      padding: '0.8rem 0',
+      padding: isMobile ? '0.6rem 0' : '0.8rem 0',
       position: 'fixed',
       width: '100%',
       top: 0,
@@ -71,22 +83,22 @@ const Navbar = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '0 2rem'
+      padding: isMobile ? '0 1rem' : '0 2rem'
     },
     logo: {
       display: 'flex',
       alignItems: 'center',
-      gap: '0.8rem',
+      gap: isMobile ? '0.5rem' : '0.8rem',
       cursor: 'pointer',
       transition: 'all 0.4s ease',
       textDecoration: 'none',
-      padding: '0.5rem 1rem',
+      padding: isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem',
       borderRadius: '20px',
       background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(255, 215, 0, 0.1))',
       border: '1px solid rgba(139, 0, 0, 0.1)'
     },
     logoIcon: {
-      fontSize: '2.5rem',
+      fontSize: isMobile ? '1.8rem' : '2.5rem',
       background: 'linear-gradient(135deg, #8b0000, #dc2626)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
@@ -95,17 +107,18 @@ const Navbar = () => {
       filter: 'drop-shadow(0 2px 4px rgba(139, 0, 0, 0.3))'
     },
     logoText: {
-      fontSize: '2rem',
+      fontSize: isMobile ? '1.2rem' : '2rem',
       fontWeight: '800',
       background: 'linear-gradient(135deg, #8b0000, #dc2626, #b91c1c)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
       letterSpacing: '-0.5px',
-      textShadow: '0 2px 4px rgba(139, 0, 0, 0.1)'
+      textShadow: '0 2px 4px rgba(139, 0, 0, 0.1)',
+      display: isMobile ? 'none' : 'block' // Hide text on mobile, show icon only
     },
     navItems: {
-      display: 'flex',
+      display: isMobile ? 'none' : 'flex',
       gap: '0.2rem',
       alignItems: 'center',
       background: 'rgba(255, 255, 255, 0.8)',
@@ -118,13 +131,13 @@ const Navbar = () => {
       color: isScrolled ? '#8b0000' : '#8b0000',
       fontWeight: '600',
       cursor: 'pointer',
-      padding: '0.8rem 1.8rem',
+      padding: isMobile ? '0.6rem 1.2rem' : '0.8rem 1.8rem',
       borderRadius: '20px',
       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
       display: 'flex',
       alignItems: 'center',
       gap: '0.6rem',
-      fontSize: '1rem',
+      fontSize: isMobile ? '0.9rem' : '1rem',
       position: 'relative',
       overflow: 'hidden',
       textDecoration: 'none',
@@ -145,71 +158,74 @@ const Navbar = () => {
       border: '1px solid rgba(139, 0, 0, 0.2)'
     },
     navIcon: {
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1rem' : '1.2rem',
       transition: 'all 0.3s ease',
       filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
     },
     // Enhanced Hamburger Menu
     hamburger: {
-      display: 'none',
+      display: isMobile ? 'flex' : 'none',
       flexDirection: 'column',
       cursor: 'pointer',
-      padding: '0.8rem',
+      padding: '0.6rem',
       borderRadius: '15px',
       transition: 'all 0.3s ease',
       background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(255, 215, 0, 0.1))',
       border: '1px solid rgba(139, 0, 0, 0.1)'
     },
     hamburgerLine: {
-      width: '28px',
+      width: '24px',
       height: '3px',
       background: '#8b0000',
-      margin: '3px 0',
+      margin: '2px 0',
       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
       borderRadius: '3px',
       transformOrigin: 'center'
     },
     hamburgerLine1: {
-      transform: isMenuOpen ? 'rotate(45deg) translate(6px, 6px)' : 'none'
+      transform: isMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none'
     },
     hamburgerLine2: {
       opacity: isMenuOpen ? 0 : 1,
       transform: isMenuOpen ? 'scale(0)' : 'scale(1)'
     },
     hamburgerLine3: {
-      transform: isMenuOpen ? 'rotate(-45deg) translate(6px, -6px)' : 'none'
+      transform: isMenuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none'
     },
     // Enhanced Mobile Menu
     mobileMenu: {
-      position: 'absolute',
-      top: '100%',
-      left: '2rem',
-      right: '2rem',
+      position: 'fixed',
+      top: isMobile ? '70px' : '100%',
+      left: '1rem',
+      right: '1rem',
       background: 'rgba(255, 255, 255, 0.98)',
       backdropFilter: 'blur(30px)',
       border: '1px solid rgba(139, 0, 0, 0.1)',
-      borderRadius: '25px',
+      borderRadius: '20px',
       boxShadow: '0 20px 60px rgba(139, 0, 0, 0.2)',
-      padding: '2rem',
+      padding: isMobile ? '1.5rem' : '2rem',
       display: isMenuOpen ? 'flex' : 'none',
       flexDirection: 'column',
       gap: '0.8rem',
       transform: isMenuOpen ? 'translateY(0) scale(1)' : 'translateY(-20px) scale(0.95)',
       opacity: isMenuOpen ? 1 : 0,
       visibility: isMenuOpen ? 'visible' : 'hidden',
-      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      zIndex: 999,
+      maxHeight: isMobile ? 'calc(100vh - 100px)' : 'none',
+      overflowY: 'auto'
     },
     mobileNavItem: {
       color: '#8b0000',
       fontWeight: '600',
       cursor: 'pointer',
-      padding: '1.2rem 1.5rem',
-      borderRadius: '18px',
+      padding: isMobile ? '1rem 1.2rem' : '1.2rem 1.5rem',
+      borderRadius: '15px',
       transition: 'all 0.3s ease',
       display: 'flex',
       alignItems: 'center',
-      gap: '1.2rem',
-      fontSize: '1.1rem',
+      gap: '1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       background: 'rgba(139, 0, 0, 0.05)',
       textDecoration: 'none',
       border: '1px solid transparent',
@@ -231,7 +247,8 @@ const Navbar = () => {
       width: '80%',
       height: '2px',
       background: 'linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.2), transparent)',
-      zIndex: -1
+      zIndex: -1,
+      display: isMobile ? 'none' : 'block'
     }
   };
 
@@ -351,14 +368,62 @@ const Navbar = () => {
           50% { transform: translateY(-3px); }
         }
         
-        @media (max-width: 968px) {
-          .desktop-nav { display: none !important; }
-          .hamburger { display: flex !important; }
+        /* Mobile-first responsive design */
+        @media (max-width: 768px) {
+          .navItems { 
+            display: none !important; 
+          }
+          .hamburger { 
+            display: flex !important; 
+          }
+          .logoText {
+            display: none !important;
+          }
         }
         
-        @media (min-width: 969px) {
-          .mobile-menu { display: none !important; }
-          .hamburger { display: none !important; }
+        @media (min-width: 769px) {
+          .mobileMenu { 
+            display: none !important; 
+          }
+          .hamburger { 
+            display: none !important; 
+          }
+          .logoText {
+            display: block !important;
+          }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 480px) {
+          .navContainer {
+            padding: 0 0.8rem !important;
+          }
+          .logo {
+            padding: 0.3rem 0.6rem !important;
+          }
+          .logoIcon {
+            font-size: 1.5rem !important;
+          }
+          .mobileMenu {
+            left: 0.5rem !important;
+            right: 0.5rem !important;
+            padding: 1rem !important;
+          }
+          .mobileNavItem {
+            padding: 0.8rem 1rem !important;
+            font-size: 0.9rem !important;
+          }
+        }
+        
+        /* Tablet devices */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .navItem {
+            padding: 0.7rem 1.5rem !important;
+            font-size: 0.9rem !important;
+          }
+          .logoText {
+            font-size: 1.6rem !important;
+          }
         }
       `}</style>
     </nav>
